@@ -6,13 +6,13 @@ public class Cliente {
 	private int idade;
 	private String cpf;
 	private double saldo;
-	
+
 	static int quantity = 1;
 
 	private boolean contaAtiva = false;
 
 	public Cliente(String nome, int idade, String cpf) {
-		if (nome == null || nome.trim().isEmpty()) {
+		if (nome == null || nome.trim().isBlank()) {
 			throw new IllegalArgumentException("Nome informado é inválido!");
 		}
 
@@ -30,7 +30,7 @@ public class Cliente {
 		}
 		this.nome = nome;
 		this.idade = idade;
-		quantity ++;
+		quantity++;
 	}
 
 	public String toString() {
@@ -73,23 +73,6 @@ public class Cliente {
 			throw new IllegalArgumentException("Sua conta não esta ativa!");
 		}
 		return saldo;
-	}
-
-	public void transferir(double valor) {
-
-		if (!contaAtiva) {
-			throw new IllegalArgumentException("Sua conta não está ativa!");
-		}
-
-		if (valor <= 0) {
-			throw new IllegalArgumentException("Valor inválido!");
-		}
-
-		if (valor > saldo) {
-			throw new IllegalArgumentException("Saldo insuficiente!");
-		}
-
-		saldo -= valor;
 	}
 
 }
