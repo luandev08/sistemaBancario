@@ -1,5 +1,7 @@
 package com.luan.projeto;
 
+import java.util.function.Function;
+
 public class Cliente {
 
 	private String nome;
@@ -28,13 +30,16 @@ public class Cliente {
 		} else {
 			throw new IllegalArgumentException("O CPF deve possuir 11 números!");
 		}
-		this.nome = nome;
+		
+		Function<String, String> caixaAlta = texto -> texto.toUpperCase();
+		
+		this.nome = caixaAlta.apply(nome);
 		this.idade = idade;
 		quantity++;
 	}
 
 	public String toString() {
-		return nome;
+		return nome+" - "+(quantity-1);
 	}
 
 	public void ativarConta() {

@@ -1,31 +1,65 @@
 package com.luan.projeto;
 
+import java.util.Scanner;
+
 public class Main {
 
 	public static void main(String[] args) {
 		Banco banco = new Banco();
+		Scanner sc = new Scanner(System.in);
+
+		int sair = 0;
 		
-		try {
-			banco.criarCliente("Luan", 20, "50139076831");
-			banco.criarCliente("Lívia", 20, "56542132655");
+		while(sair == 0) {
+			System.out.println("==== BANCO ====");
+			System.out.println("1 - Cadastrar cliente");
+			System.out.println("2 - Ativar conta");
+			System.out.println("3 - Depositar");
+			System.out.println("4 - Sacar");
+			System.out.println("5 - Transferir");
+			System.out.println("6 - Consultar saldo");
+			System.out.println("7 - Listar Clientes");
+			System.out.println("0 - Sair");
+			sair++;
 			
-			Cliente cliente1 = banco.getCliente(1);
-			Cliente cliente2 = banco.getCliente(2);
+			int opcao = sc.nextInt();
 			
-			cliente1.ativarConta();
-			cliente2.ativarConta();
+			switch(opcao) {
 			
-			//banco.remover(2);
-			banco.getClientes();
-			
-			
-			System.out.println(cliente1.getSaldo());
-			System.out.println(cliente2.getSaldo());
-			
-		} catch (IllegalArgumentException e) {
-			e.getMessage();
-		} finally {
-			System.out.println("Processo finalizado!");
+			case 1:
+				System.out.println("Nome: || Idade || CPF");
+				banco.criarCliente(sc.next(), sc.nextInt(), sc.next());
+				sair--;
+				break;
+			case 2:
+				System.out.println("Coloque o id:");
+				banco.ativarConta(sc.nextInt());
+				sair--;
+				break;
+			case 3:
+				System.out.println("Coloque: ID || VALOR");
+				banco.depositar(sc.nextInt(),sc.nextDouble());
+				sair--;
+				break;
+			case 4:
+				System.out.println("Coloque: ID || VALOR");
+				banco.sacar(sc.nextInt(), sc.nextDouble());
+				sair--;
+				break;
+			case 5:
+				System.out.println("Coloque o ID de que envia e depois de que vai receber.");
+				System.out.println("Em seguida o valor de envio.");
+				banco.transferir(sc.nextInt(), sc.nextInt(), sc.nextDouble());
+				sair--;
+				break;
+			case 7:
+				banco.getClientes();
+				sair--;
+				break;
+				
+			}
 		}
+		sc.close();
 	}
+	
 }
