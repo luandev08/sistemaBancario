@@ -23,18 +23,12 @@ public class Banco {
 	}
 
 	public void transferir(int idRemetente, int idDestinatario, double valor) {
-		if (idRemetente <= 0 || idDestinatario <= 0) {
-			throw new IllegalArgumentException("Id inválido!");
-		} else {
-			throw new IllegalArgumentException("Preencha um id!");
+		if(listaClientes.get(idRemetente) == null || listaClientes.get(idDestinatario) == null || valor <= 0) {
+			System.out.println("Dados inválidos!");
 		}
-
-		if (valor > 0) {
-			listaClientes.get(idRemetente).sacar(valor);
-			listaClientes.get(idDestinatario).depositar(valor);
-		} else {
-			System.out.println("Valor informado inválido, tente novamente!");
-		}
+		listaClientes.get(idRemetente).sacar(valor);
+		listaClientes.get(idDestinatario).depositar(valor);
+		
 	}
 
 	public void ativarConta(int id) {
@@ -53,6 +47,11 @@ public class Banco {
 
 	public void sacar(int id, double valor) {
 		listaClientes.get(id).sacar(valor);
+	}
+	
+	public void getSaldo(int id) {
+		Cliente cliente = listaClientes.get(id);
+		System.out.println(cliente.getSaldo());
 	}
 
 }

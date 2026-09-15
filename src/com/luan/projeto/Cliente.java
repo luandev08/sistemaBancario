@@ -73,11 +73,11 @@ public class Cliente {
 		}
 	}
 
-	public double getSaldo() {
+	public void getSaldo() {
 		if (!contaAtiva) {
 			throw new IllegalArgumentException("Sua conta não esta ativa!");
 		}
-		return saldo;
+		System.out.println("R$ "+saldo);
 	}
 
 }

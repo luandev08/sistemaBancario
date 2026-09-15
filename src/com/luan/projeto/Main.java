@@ -11,8 +11,9 @@ public class Main {
 		int sair = 0;
 		
 		while(sair == 0) {
+			System.out.println("");
 			System.out.println("==== BANCO ====");
-			System.out.println("1 - Cadas cliente");
+			System.out.println("1 - Cadastrar cliente");
 			System.out.println("2 - Ativar conta");
 			System.out.println("3 - Depositar");
 			System.out.println("4 - Sacar");
@@ -20,6 +21,7 @@ public class Main {
 			System.out.println("6 - Consultar saldo");
 			System.out.println("7 - Listar Clientes");
 			System.out.println("0 - Sair");
+			System.out.println("");
 			sair++;
 			
 			int opcao = sc.nextInt();
@@ -52,11 +54,20 @@ public class Main {
 				banco.transferir(sc.nextInt(), sc.nextInt(), sc.nextDouble());
 				sair--;
 				break;
+			case 6:
+				System.out.println("Digite o id do usuário desejado:");
+				banco.getSaldo(sc.nextInt());
+				sair--;
 			case 7:
 				banco.getClientes();
 				sair--;
 				break;
-				
+			case 0:
+				System.out.println("Sessão finalizada!");
+				break;
+			default:
+				System.out.println("Selecione uma opcção válida!");
+				sair--;
 			}
 		}
 		sc.close();
