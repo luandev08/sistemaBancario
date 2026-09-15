@@ -12,7 +12,7 @@ public class Main {
 		
 		while(sair == 0) {
 			System.out.println("==== BANCO ====");
-			System.out.println("1 - Create cliente");
+			System.out.println("1 - Ativar cliente");
 			System.out.println("2 - Ativar conta");
 			System.out.println("3 - Depositar");
 			System.out.println("4 - Sacar");
