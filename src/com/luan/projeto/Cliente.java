@@ -39,7 +39,7 @@ public class Cliente {
 	}
 
 	public String toString() {
-		return nome+" - "+(quantity-1);
+		return nome;
 	}
 
 	public void ativarConta() {
@@ -73,11 +73,11 @@ public class Cliente {
 		}
 	}
 
-	public void getSaldo() {
+	public double getSaldo() {
 		if (!contaAtiva) {
 			throw new IllegalArgumentException("Sua conta não esta ativa!");
 		}
-		System.out.println("R$ "+saldo);
+		return saldo;
 	}
 
 }
