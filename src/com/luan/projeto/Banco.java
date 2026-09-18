@@ -11,7 +11,7 @@ public class Banco {
 	}
 
 	public void getClientes() {
-		System.out.println("Clientes: " + listaClientes.values());
+		System.out.println(listaClientes.values());
 	}
 
 	public Cliente getCliente(int id) {
@@ -49,9 +49,14 @@ public class Banco {
 		listaClientes.get(id).sacar(valor);
 	}
 	
-	public void getSaldo(int id) {
-		Cliente cliente = listaClientes.get(id);
-		System.out.println(cliente.getSaldo());
+	public Map<String, Object> getSaldo(int id) {
+		double saldo = listaClientes.get(id).getSaldo();
+		
+		Map<String, Object> mapa = new HashMap<>();
+		mapa.put("origem", saldo);
+		mapa.put("saldoString", "R$ "+saldo);
+		return mapa;
+		
 	}
 
 }

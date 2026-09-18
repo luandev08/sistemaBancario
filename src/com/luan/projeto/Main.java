@@ -1,5 +1,6 @@
 package com.luan.projeto;
 
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -56,7 +57,8 @@ public class Main {
 				break;
 			case 6:
 				System.out.println("Digite o id do usuário desejado:");
-				banco.getSaldo(sc.nextInt());
+				Object dados = banco.getSaldo(sc.nextInt()).get("saldoString");
+				System.out.println(dados);
 				sair--;
 			case 7:
 				banco.getClientes();
