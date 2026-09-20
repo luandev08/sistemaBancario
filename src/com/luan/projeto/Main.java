@@ -30,7 +30,7 @@ public class Main {
 			switch(opcao) {
 			
 			case 1:
-				System.out.println("Nome: || Idade || CPF");
+				System.out.println("Nome enter Idade enter CPF enter");
 				banco.criarCliente(sc.next(), sc.nextInt(), sc.next());
 				sair--;
 				break;
@@ -40,12 +40,12 @@ public class Main {
 				sair--;
 				break;
 			case 3:
-				System.out.println("Coloque: ID || VALOR");
+				System.out.println("Coloque: ID enter VALOR enter");
 				banco.depositar(sc.nextInt(),sc.nextDouble());
 				sair--;
 				break;
 			case 4:
-				System.out.println("Coloque: ID || VALOR");
+				System.out.println("Coloque: ID enter VALOR enter");
 				banco.sacar(sc.nextInt(), sc.nextDouble());
 				sair--;
 				break;
@@ -57,8 +57,8 @@ public class Main {
 				break;
 			case 6:
 				System.out.println("Digite o id do usuário desejado:");
-				Object dados = banco.getSaldo(sc.nextInt()).get("saldoString");
-				System.out.println(dados);
+				Map<String, Object> dados = banco.getSaldo(sc.nextInt());
+				System.out.println(dados.get("saldoString"));
 				sair--;
 			case 7:
 				banco.getClientes();
@@ -68,7 +68,7 @@ public class Main {
 				System.out.println("Sessão finalizada!");
 				break;
 			default:
-				System.out.println("Selecione uma opcção válida!");
+				System.out.println("Selecione uma opção válida!");
 				sair--;
 			}
 		}
