@@ -34,8 +34,7 @@ public class Banco {
 
 	public void ativarConta(int id) {
 		if (id > 0) {
-			Cliente cliente = listaClientes.get(id);
-			cliente.ativarConta();
+			listaClientes.get(id).ativarConta();
 			System.out.println(listaClientes.get(id).toString());
 		} else {
 			throw new IllegalArgumentException("ID informado inválido!");

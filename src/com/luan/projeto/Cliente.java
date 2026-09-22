@@ -14,22 +14,6 @@ public class Cliente {
 	private boolean contaAtiva = false;
 
 	public Cliente(String nome, int idade, String cpf) {
-		if (nome == null || nome.trim().isBlank()) {
-			throw new IllegalArgumentException("Nome informado é inválido!");
-		}
-
-		if (idade <= 17) {
-			throw new IllegalArgumentException("Menor de idade não pode fazer o cadastro!");
-		}
-
-		String cpfNumeros = cpf.replaceAll("[^0-9]", "");
-		int quantidadeNumerosCpf = cpfNumeros.length();
-
-		if (quantidadeNumerosCpf == 11) {
-			this.cpf = cpfNumeros;
-		} else {
-			throw new IllegalArgumentException("O CPF deve possuir 11 números!");
-		}
 		
 		Function<String, String> caixaAlta = texto -> texto.toUpperCase();
 		
