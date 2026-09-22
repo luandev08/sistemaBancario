@@ -1,6 +1,7 @@
 package com.luan.projeto;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Banco {
@@ -23,18 +24,17 @@ public class Banco {
 	}
 
 	public void transferir(int idRemetente, int idDestinatario, double valor) {
-		if(listaClientes.get(idRemetente) == null || listaClientes.get(idDestinatario) == null || valor <= 0) {
+		if (listaClientes.get(idRemetente) == null || listaClientes.get(idDestinatario) == null || valor <= 0) {
 			System.out.println("Dados inválidos!");
 		}
 		listaClientes.get(idRemetente).sacar(valor);
 		listaClientes.get(idDestinatario).depositar(valor);
-		
+
 	}
 
 	public void ativarConta(int id) {
 		if (id > 0) {
-			Cliente cliente = listaClientes.get(id);
-			cliente.ativarConta();
+			listaClientes.get(id).ativarConta();
 			System.out.println(listaClientes.get(id).toString());
 		} else {
 			throw new IllegalArgumentException("ID informado inválido!");
@@ -42,21 +42,29 @@ public class Banco {
 	}
 
 	public void depositar(int id, double valor) {
-		listaClientes.get(id).depositar(valor);
+		if (valor <= 0)
+			System.out.println("Use um valor válido");
+
+		Cliente cliente = listaClientes.get(id);
+
+		if (cliente == null) {
+			throw new IllegalArgumentException("Use um id válido");
+		}
+		cliente.depositar(valor);
 	}
 
 	public void sacar(int id, double valor) {
 		listaClientes.get(id).sacar(valor);
 	}
-	
+
 	public Map<String, Object> getSaldo(int id) {
 		double saldo = listaClientes.get(id).getSaldo();
-		
+
 		Map<String, Object> mapa = new HashMap<>();
 		mapa.put("origem", saldo);
-		mapa.put("saldoString", "R$ "+saldo);
+		mapa.put("saldoString", "R$ " + saldo);
 		return mapa;
-		
+
 	}
 
 }
