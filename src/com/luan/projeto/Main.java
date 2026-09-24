@@ -36,7 +36,7 @@ public class Main {
 				while (!dadoValido) {
 					try {
 
-						System.out.println("Nome enter Idade enter CPF enter");
+						System.out.println("Nome 'enter' Idade 'enter' CPF 'enter'");
 						String nome = sc.next();
 
 						if (nome == null || nome.trim().isBlank()) {
@@ -69,11 +69,11 @@ public class Main {
 						System.out.println("Dados Incorretos, tente novamente!");
 						sc.nextLine();
 					} catch (IllegalArgumentException e) {
-						if(e.getMessage().equals("ERRO_NOME")) {
+						if (e.getMessage().equals("ERRO_NOME")) {
 							System.out.println("Nome digitado inválido!");
-						}else if(e.getMessage().equals("ERRO_IDADE")) {
+						} else if (e.getMessage().equals("ERRO_IDADE")) {
 							System.out.println("Idade inválida!");
-						}else {
+						} else {
 							System.out.println("Verifique se o CPF está correto!");
 						}
 					}
@@ -83,22 +83,22 @@ public class Main {
 				dadoValido = false;
 				while (!dadoValido) {
 					try {
+						System.out.println("Coloque o id:");
 						int id = sc.nextInt();
 
 						if (banco.getCliente(id) != null) {
-							System.out.println("Coloque o id:");
 							banco.ativarConta(id);
 
 							dadoValido = true;
 						} else {
-							throw new IllegalArgumentException("O CPF deve possuir 11 números!");
+							throw new IllegalArgumentException("ERRO_ID");
 						}
 
 					} catch (InputMismatchException e) {
 						System.out.println("Dado Incorreto, tente novamente...");
 						sc.nextLine();
 					} catch (IllegalArgumentException e) {
-						System.out.println("Dados incorretos, tente novamente!");
+						System.out.println("Id não encontrado!");
 					}
 				}
 				sair--;
@@ -107,14 +107,23 @@ public class Main {
 				dadoValido = false;
 				while (!dadoValido) {
 					try {
-						System.out.println("Coloque: ID enter VALOR enter");
-						banco.depositar(sc.nextInt(), sc.nextDouble());
+						System.out.println("Coloque: ID 'enter' VALOR 'enter'");
+						int id = sc.nextInt();
+						double valor = sc.nextDouble();
+
+						if (banco.getCliente(id) == null || valor <= 0) {
+							throw new IllegalArgumentException("ERRO_DADOS");
+						}
+
+						banco.depositar(id, valor);
 
 						dadoValido = true;
 
 					} catch (InputMismatchException e) {
-						System.out.println("Dado Incorreto, tente novamente...");
+						System.out.println("Dados Incorretos, tente novamente...");
 						sc.nextLine();
+					} catch (IllegalArgumentException e) {
+						System.out.println("Id ou Valor inválidos! ");
 					}
 				}
 
@@ -124,14 +133,29 @@ public class Main {
 				dadoValido = false;
 				while (!dadoValido) {
 					try {
-						System.out.println("Coloque: ID enter VALOR enter");
-						banco.sacar(sc.nextInt(), sc.nextDouble());
+						System.out.println("Coloque: ID 'enter' VALOR 'enter'");
+						int id = sc.nextInt();
+						double valor = sc.nextDouble();
+
+						if (banco.getCliente(id) == null) {
+							throw new IllegalArgumentException("ERRO_ID");
+						}else if (banco.getCliente(id).getSaldo() < valor || valor <= 0) {
+							throw new IllegalArgumentException("ERRO_SALDO");
+						}
+
+						banco.sacar(id, valor);
 
 						dadoValido = true;
 
 					} catch (InputMismatchException e) {
 						System.out.println("Dado Incorreto, tente novamente...");
 						sc.nextLine();
+					} catch (IllegalArgumentException e) {
+						if (e.getMessage() == "ERRO_ID") {
+							System.out.println("Id não encontrado!");
+						} else {
+							System.out.println("Valor inválido!");
+						}
 					}
 				}
 
@@ -141,15 +165,33 @@ public class Main {
 				dadoValido = false;
 				while (!dadoValido) {
 					try {
-						System.out.println("Coloque o ID de que envia e depois de que vai receber.");
-						System.out.println("Em seguida o valor de envio.");
-						banco.transferir(sc.nextInt(), sc.nextInt(), sc.nextDouble());
+						System.out.println("Coloque: ID de origem | enter | ID destino | enter");
 
+						int idOrigem = sc.nextInt();
+						int idDestino = sc.nextInt();
+
+						System.out.println("Valor desejado: | enter |");
+
+						double valor = sc.nextDouble();
+
+						if (valor <= 0) {
+							throw new IllegalArgumentException("ERRO_VALOR");
+						} else if (banco.getCliente(idDestino) == null || banco.getCliente(idOrigem) == null) {
+							throw new IllegalArgumentException("ERRO_ID");
+						}
+
+						banco.transferir(idOrigem, idDestino, valor);
 						dadoValido = true;
 
 					} catch (InputMismatchException e) {
 						System.out.println("Dado Incorreto, tente novamente...");
 						sc.nextLine();
+					} catch (IllegalArgumentException e) {
+						if (e.getMessage() == "ERRO_VALOR") {
+							System.out.println("Valor inválido!");
+						} else {
+							System.out.println("Id inválido!");
+						}
 					}
 				}
 
@@ -160,7 +202,12 @@ public class Main {
 				while (!dadoValido) {
 					try {
 						System.out.println("Digite o id do usuário desejado:");
-						Map<String, Object> dados = banco.getSaldo(sc.nextInt());
+						int id = sc.nextInt();
+
+						if (banco.getCliente(id) == null) {
+							throw new IllegalArgumentException("ERRO_ID");
+						}
+						Map<String, Object> dados = banco.getSaldo(id);
 						System.out.println(dados.get("saldoString"));
 
 						dadoValido = true;
@@ -168,10 +215,13 @@ public class Main {
 					} catch (InputMismatchException e) {
 						System.out.println("Dado Incorreto, tente novamente...");
 						sc.nextLine();
+					} catch (IllegalArgumentException e) {
+						System.out.println("Usuário não encontrado!");
 					}
 				}
-
 				sair--;
+				break;
+
 			case 7:
 				dadoValido = false;
 				while (!dadoValido) {
