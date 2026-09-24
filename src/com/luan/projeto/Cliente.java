@@ -14,9 +14,9 @@ public class Cliente {
 	private boolean contaAtiva = false;
 
 	public Cliente(String nome, int idade, String cpf) {
-		
+
 		Function<String, String> caixaAlta = texto -> texto.toUpperCase();
-		
+
 		this.nome = caixaAlta.apply(nome);
 		this.idade = idade;
 		quantity++;
@@ -32,35 +32,14 @@ public class Cliente {
 	}
 
 	public void depositar(double valor) {
-		if (contaAtiva) {
-			if (valor <= 0) {
-				throw new IllegalArgumentException("Valor Inválido!");
-			} else {
-				saldo += valor;
-			}
-		} else {
-			throw new IllegalArgumentException("Sua conta não esta ativa!");
-		}
+		saldo += valor;
 	}
 
 	public void sacar(double valor) {
-		if (contaAtiva) {
-			if (valor > saldo) {
-				throw new IllegalArgumentException("Saldo insuficiente!");
-			} else if (valor <= 0) {
-				throw new IllegalArgumentException("Valor inválido!");
-			} else {
 				saldo -= valor;
-			}
-		} else {
-			throw new IllegalArgumentException("Sua conta não esta ativa!");
-		}
 	}
 
 	public double getSaldo() {
-		if (!contaAtiva) {
-			throw new IllegalArgumentException("Sua conta não esta ativa!");
-		}
 		return saldo;
 	}
 

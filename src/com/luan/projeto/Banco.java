@@ -33,24 +33,12 @@ public class Banco {
 	}
 
 	public void ativarConta(int id) {
-		if (id > 0) {
 			listaClientes.get(id).ativarConta();
-			System.out.println(listaClientes.get(id).toString());
-		} else {
-			throw new IllegalArgumentException("ID informado inválido!");
-		}
+
 	}
 
 	public void depositar(int id, double valor) {
-		if (valor <= 0)
-			System.out.println("Use um valor válido");
-
-		Cliente cliente = listaClientes.get(id);
-
-		if (cliente == null) {
-			throw new IllegalArgumentException("Use um id válido");
-		}
-		cliente.depositar(valor);
+		listaClientes.get(id).depositar(valor);
 	}
 
 	public void sacar(int id, double valor) {
