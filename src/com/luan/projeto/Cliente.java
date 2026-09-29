@@ -1,25 +1,25 @@
 package com.luan.projeto;
 
-import java.util.function.Function;
-
 public class Cliente {
 
 	private String nome;
 	private int idade;
 	private String cpf;
-	private double saldo;
+	
+	private Conta conta = new Conta();
 
 	static int quantity = 1;
 
-	private boolean contaAtiva = false;
-
 	public Cliente(String nome, int idade, String cpf) {
 
-		Function<String, String> caixaAlta = texto -> texto.toUpperCase();
-
-		this.nome = caixaAlta.apply(nome);
+		this.nome = nome.toUpperCase();
 		this.idade = idade;
+		this.cpf = cpf;
 		quantity++;
+	}
+	
+	public boolean contaAtiva() {
+		return conta.contaAtiva();
 	}
 
 	public String toString() {
@@ -27,20 +27,19 @@ public class Cliente {
 	}
 
 	public void ativarConta() {
-		contaAtiva = true;
-		saldo = 0;
+		conta.ativarConta();
 	}
 
 	public void depositar(double valor) {
-		saldo += valor;
+		conta.depositar(valor);
 	}
 
 	public void sacar(double valor) {
-				saldo -= valor;
+		conta.sacar(valor);
 	}
 
 	public double getSaldo() {
-		return saldo;
+		return conta.getSaldo();
 	}
 
 }
