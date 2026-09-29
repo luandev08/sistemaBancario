@@ -1,18 +1,35 @@
 package com.luan.projeto;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Banco {
-	Map<Integer, Cliente> listaClientes = new HashMap<>();
+	private final Map<Integer, Cliente> listaClientes = new HashMap<>();
 
 	public void criarCliente(String nome, int idade, String cpf) {
+
+		if (nome == null || nome.trim().isBlank())
+			throw new IllegalArgumentException("ERRO_NOME");
+
+		if (idade <= 17)
+			throw new IllegalArgumentException("ERRO_IDADE");
+
+		String cpfLimpo = cpf.replaceAll("[^0-9]", "");
+
+		int quantidadeNumerosCpf = cpfLimpo.length();
+
+		if (quantidadeNumerosCpf == 11) {
+			cpf = cpfLimpo;
+		} else {
+			throw new IllegalArgumentException("ERRO_CPF");
+		}
+
 		listaClientes.put(Cliente.quantity, new Cliente(nome, idade, cpf));
 	}
 
-	public void getClientes() {
-		System.out.println(listaClientes.values());
+	public Collection<Cliente> getClientes(){
+		return listaClientes.values();
 	}
 
 	public Cliente getCliente(int id) {
@@ -23,36 +40,70 @@ public class Banco {
 		listaClientes.remove(id);
 	}
 
-	public void transferir(int idRemetente, int idDestinatario, double valor) {
-		if (listaClientes.get(idRemetente) == null || listaClientes.get(idDestinatario) == null || valor <= 0) {
-			System.out.println("Dados inválidos!");
+	public void transferir(int id1, int id2, double valor) {
+		
+		Cliente origem = listaClientes.get(id1);
+		Cliente destino = listaClientes.get(id2);
+		
+		if(origem.contaAtiva() == false || destino.contaAtiva() == false) {
+			throw new IllegalArgumentException("ERRO_INATIVA");
+		}else if (origem == null || destino == null) {
+			throw new IllegalArgumentException("ERRO_ID");
+		} else if (origem.getSaldo() < valor) {
+			throw new IllegalArgumentException("ERRO_VAL_INSUF");
+		} else if (origem == destino) {
+			throw new IllegalArgumentException("ERRO_ID_IG");
+		} else if (valor <= 0) {
+			throw new IllegalArgumentException("ERRO_VAL");
 		}
-		listaClientes.get(idRemetente).sacar(valor);
-		listaClientes.get(idDestinatario).depositar(valor);
-
+		
+		origem.sacar(valor);
+		destino.depositar(valor);
 	}
 
 	public void ativarConta(int id) {
-			listaClientes.get(id).ativarConta();
+
+		Cliente cliente = listaClientes.get(id);
+
+		if (cliente != null) {
+			cliente.ativarConta();
+		} else {
+			throw new IllegalArgumentException("ERRO_ID");
+		}
 
 	}
 
 	public void depositar(int id, double valor) {
-		listaClientes.get(id).depositar(valor);
+
+		Cliente cliente = listaClientes.get(id);
+
+		if (cliente == null) {
+			throw new IllegalArgumentException("ERRO_ID");
+		} else if (valor <= 0) {
+			throw new IllegalArgumentException("ERRO_VALOR");
+		}
+
+		cliente.depositar(valor);
 	}
 
 	public void sacar(int id, double valor) {
-		listaClientes.get(id).sacar(valor);
+
+		Cliente cliente = listaClientes.get(id);
+
+		if (cliente == null) {
+			throw new IllegalArgumentException("ERRO_ID");
+		} else if (cliente.getSaldo() < valor || valor <= 0) {
+			throw new IllegalArgumentException("ERRO_SALDO");
+		} else {
+			cliente.sacar(valor);
+		}
 	}
 
-	public Map<String, Object> getSaldo(int id) {
-		double saldo = listaClientes.get(id).getSaldo();
+	public double getSaldo(int id) {
+		if (listaClientes.get(id) == null) {
+			throw new IllegalArgumentException("ERRO_ID");
+		}
 
-		Map<String, Object> mapa = new HashMap<>();
-		mapa.put("origem", saldo);
-		mapa.put("saldoString", "R$ " + saldo);
-		return mapa;
-
+		return listaClientes.get(id).getSaldo();
 	}
-
 }
